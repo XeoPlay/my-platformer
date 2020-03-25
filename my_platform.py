@@ -2,8 +2,8 @@ import play
 import pygame
 
 play.set_backdrop('light green')
-#coin_sound = pygame.mixer.Sound('coin.wav')
-#sea_sound = pygame.mixer.Sound('sea.ogg')
+coin_sound = pygame.mixer.Sound('coin.wav')
+sea_sound = pygame.mixer.Sound('sea.ogg')
 pygame.display.set_caption('Platformer: The Stupidest Game Ever!')
 
 gameover_text = play.new_text(words = 'GAME OVER', x = 0, y = play.screen.top - 100, font_size=50)
@@ -96,8 +96,8 @@ sea = play.new_box(
 
 @play.when_program_starts
 def start():
-    #pygame.mixer_music.load('soundtrack.mp3')
-    #pygame.mixer_music.play()
+    pygame.mixer_music.load('soundtrack.mp3')
+    pygame.mixer_music.play()
 
     sprite.start_physics(can_move= True, stable = False, obeys_gravity=True, mass =50, friction=1.0, bounciness=0.5)
 
@@ -109,7 +109,7 @@ async def game():
     global score
     global score_num
     if sprite.is_touching(sea):
-        #sea_sound.play()
+        sea_sound.play()
         gameover_text.show()
         retry_button.show()        
 
@@ -129,7 +129,7 @@ async def game():
 
     for c in coins:
         if c.is_touching(sprite):
-            #coin_sound.play()
+            coin_sound.play()
             sprite.physics.y_speed = -1 *sprite.physics.y_speed
             c.hide()
             coins.remove(c)
