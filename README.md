@@ -1,4 +1,4 @@
-# my-platformer
+# My First Platformer!
 game
 (you need coin.wav, sea.ogg, soundtrack.mp3, .vscode (and obviously my_platform.py) to launch)
 before launching (in python console):
