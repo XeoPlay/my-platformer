@@ -2,8 +2,8 @@ import play
 import pygame
 
 play.set_backdrop('light green')
-coin_sound = pygame.mixer.Sound('coin.wav')
-sea_sound = pygame.mixer.Sound('sea.ogg')
+#coin_sound = pygame.mixer.Sound('coin.wav')
+#sea_sound = pygame.mixer.Sound('sea.ogg')
 pygame.display.set_caption('Platformer: The Stupidest Game Ever!')
 
 gameover_text = play.new_text(words = 'GAME OVER', x = 0, y = play.screen.top - 100, font_size=50)
@@ -15,11 +15,12 @@ retry_button.hide()
 sprite = play.new_circle(
     color= 'black', x = play.screen.left + 20, y = play.screen.top - 20, border_width=3, radius = 15
 )
-
+finish = 0
 coins = []
 platforms = []
 
 def draw_platforms():
+    global finish
     platform1 = play.new_box(
         color = 'brown', border_width= 1, border_color= 'black', width = 150, height = 30, x = play.screen.left + 70, y = play.screen.top-170
     )
@@ -59,6 +60,9 @@ def draw_platforms():
         color = 'brown', border_width= 1, border_color= 'black', width = 130, height = 30, x = play.screen.left + 700, y = play.screen.top-260
     )
     platforms.append(platform8)
+
+    finish  = play.new_circle(color = 'red', x = platform5.x, y = platform5.y + 45,radius = 20, border_color= 'black', border_width=2)
+
     for platform in platforms:
         platform.start_physics(can_move=False, stable=True, obeys_gravity=True, mass = 10)
 
@@ -84,7 +88,6 @@ score_txt = play.new_text(words='Score:', x=play.screen.right-100, y=play.screen
 score_num = 0
 score = play.new_text(words=str(score_num), x=play.screen.right-30, y=play.screen.top-30, size=70)
 
-
 text = play.new_text(words='Tap SPACE to jump, a/d to move', x=0, y=play.screen.bottom+60, size=70)
 
 sea = play.new_box(
@@ -93,8 +96,8 @@ sea = play.new_box(
 
 @play.when_program_starts
 def start():
-    pygame.mixer_music.load('soundtrack.mp3')
-    pygame.mixer_music.play()
+    #pygame.mixer_music.load('soundtrack.mp3')
+    #pygame.mixer_music.play()
 
     sprite.start_physics(can_move= True, stable = False, obeys_gravity=True, mass =50, friction=1.0, bounciness=0.5)
 
@@ -106,13 +109,27 @@ async def game():
     global score
     global score_num
     if sprite.is_touching(sea):
-        sea_sound.play()
+        #sea_sound.play()
         gameover_text.show()
         retry_button.show()        
 
+    if sprite.is_touching(finish):
+        for c in coins:
+            c.hide()
+        for plat in platforms:
+            plat.hide()
+        finish.hide()
+        sprite.hide()
+        sea.hide()
+        text.hide()
+        score.hide()
+        score_txt.hide()
+        await play.timer(seconds=2)
+        quit()
+
     for c in coins:
         if c.is_touching(sprite):
-            coin_sound.play()
+            #coin_sound.play()
             sprite.physics.y_speed = -1 *sprite.physics.y_speed
             c.hide()
             coins.remove(c)
@@ -138,6 +155,5 @@ async def clicking():
     draw_coins()
     retry_button.hide()
     gameover_text.hide()
-
 
 play.start_program()
