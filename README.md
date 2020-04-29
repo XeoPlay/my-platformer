@@ -1,12 +1,11 @@
 # My First Platformer!
-game
-(you need coin.wav, sea.ogg, soundtrack.mp3, .vscode (and obviously my_platform.py) to launch)
-before launching (in python console):
+You need coin.wav, sea.ogg, soundtrack.mp3, my_platform.py to launch
+# before launching (in python console):
 pip install replit-play
 ...
 pip install pygame
 ...
 
 
-Done!
+# Done!
 Now you can launch my game!
